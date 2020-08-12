@@ -1,0 +1,24 @@
+version: "3.7"
+services:
+  server:
+    build: ./server
+    container_name: server
+    restart: always
+    environment: 
+      - DB_HOST=mongodb
+      - DB=url-shortner
+    ports:
+      - "3000:3000"
+    depends_on: 
+      - mongodb
+  mongodb:
+    container_name: mongodb
+    image: mongo
+    environment:
+      mongodb_INITDB_DATABASE: url-shortner
+    ports:
+      - "27017:27017"
+    volumes:
+      - data-volume:/data/db
+volumes:
+  data-volume:
