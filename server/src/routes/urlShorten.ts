@@ -37,7 +37,6 @@ module.exports = function (app: Express) {
 
   app.post<{}, GetUrlResponse, GetUrlRequest>('/url',middleware.addAuth, async (req, res) => {
     const { originalUrl } = req.body;
-    console.log("reaching here",req.body)
     const updatedAt = new Date();
     const queryOptions = { originalUrl };
     if (validUrl.isUri(originalUrl)) {
