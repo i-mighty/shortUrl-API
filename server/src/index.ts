@@ -8,20 +8,23 @@ import cors from 'cors';
 const upload = multer();
 
 import './models/UrlShorten';
+import "./models/UserSchema"
 
 dotenv.config();
 
 const DB = process.env.DB;
 const DB_HOST = process.env.DB_HOST;
 
-const dbURI = `mongodb://${DB_HOST}/${DB}`;
+// const dbURI = `mongodb://${DB_HOST}/${DB}`;
+const dbURI= `mongodb://localhost:27017/${DB_HOST}`
 console.log(dbURI);
 const connectOptions = {
   keepAlive: true,
   reconnectTries: Number.MAX_VALUE,
   reconnectInterval: 500,
   connectTimeoutMS: 10000,
-  useNewUrlParser: true
+  useNewUrlParser: true,
+  useUnifiedTopology:true
 };
 //Connect to MongoDB
 mongoose.Promise = global.Promise;
@@ -37,6 +40,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(upload.none()); 
 app.use(cors());
 app.options('*', cors());
+require("./routes/auth")(app)
 require('./routes/urlShorten')(app);
 
 app.listen(process.env.PORT, () => {

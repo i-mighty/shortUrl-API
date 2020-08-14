@@ -6,4 +6,8 @@ export interface Url extends Document {
   shortUrl: string;
   createdAt: string
   updatedAt: string;
+  user:{
+    ref:string,
+    type:string
+  }
 }
