@@ -49,3 +49,10 @@ export interface LoginResponse {
   user?:UserResponse,
   error?:string
 }
+export interface ItoBeSaved {
+  originalUrl:string,
+  shortUrl:string,
+  updatedAt:Date,
+  urlCode:string
+  user?:string
+}

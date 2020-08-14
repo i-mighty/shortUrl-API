@@ -9,9 +9,9 @@ import {
   GetUrlsResponse,
   GetUrlResponse,
   GetUrlRequest,
+  ItoBeSaved
 } from './types';
-import RequireSignIn from "../utils/middleware"
-import UrlShorten from '@src/models/UrlShorten';
+import middleware from "../utils/middleware"
 
 const Url = mongoose.model<Url>('Url');
 
@@ -19,6 +19,10 @@ const nanoid = customAlphabet(shortUrlAlphabet, 8);
 
 
 module.exports = function (app: Express) {
+  app.get('/', async (req, res) => {
+    res.send("welcome to url shortener")
+  });
+
   app.get('/:code', async (req, res) => {
     const urlCode = req.params.code;
     const item = await Url.findOne({ urlCode });
@@ -30,8 +34,10 @@ module.exports = function (app: Express) {
       });
     }
   });
-  app.post<{}, GetUrlResponse, GetUrlRequest>('/url', async (req, res) => {
+
+  app.post<{}, GetUrlResponse, GetUrlRequest>('/url',middleware.addAuth, async (req, res) => {
     const { originalUrl } = req.body;
+    console.log("reaching here",req.body)
     const updatedAt = new Date();
     const queryOptions = { originalUrl };
     if (validUrl.isUri(originalUrl)) {
@@ -49,7 +55,10 @@ module.exports = function (app: Express) {
         } else {
           const urlCode = nanoid();
           shortUrl = `${shortBaseUrl}/${urlCode}`;
-          const itemToBeSaved = { originalUrl, shortUrl, urlCode, updatedAt,user:req.body.auth._id};
+          let itemToBeSaved:ItoBeSaved = { originalUrl, shortUrl, urlCode, updatedAt};
+          if(req.body.auth){
+            itemToBeSaved.user = req.body.auth._id
+          }          
           console.log("item to be saved",itemToBeSaved)
           const item = new Url(itemToBeSaved);
           await item.save();
@@ -59,6 +68,7 @@ module.exports = function (app: Express) {
           });
         }
       } catch (err) {
+        console.log("there's an err",err)
         res.status(401).json({
           message: 'Some error occurred.'
         });
@@ -69,8 +79,8 @@ module.exports = function (app: Express) {
       });
     }
   });
-  app.post<{}, GetUrlsResponse, GetUrlsRequest>('/urls',RequireSignIn, async (req, res) => {
-    
+
+  app.post<{}, GetUrlsResponse, GetUrlsRequest>('/urls',middleware.addAuth, async (req, res) => {
     const limit = parseInt(req.body.limit || '10');
     const page = parseInt(req.body.page || '1');
     try {
@@ -78,7 +88,7 @@ module.exports = function (app: Express) {
       if(req.body.auth){
         urlsPage = await Url.paginate({user:req.body.auth._id},{limit,page})     
       }else{
-        urlsPage = await Url.paginate({}, { limit, page });
+        urlsPage = await Url.paginate({user:undefined}, { limit, page });
       }
       if (urlsPage.docs) {
         res.status(200).json({
