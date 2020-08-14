@@ -19,7 +19,6 @@ const nanoid = customAlphabet(shortUrlAlphabet, 8);
 
 
 module.exports = function (app: Express) {
-  app.use(RequireSignIn)
   app.get('/:code', async (req, res) => {
     const urlCode = req.params.code;
     const item = await Url.findOne({ urlCode });
@@ -31,7 +30,6 @@ module.exports = function (app: Express) {
       });
     }
   });
-
   app.post<{}, GetUrlResponse, GetUrlRequest>('/url', async (req, res) => {
     const { originalUrl } = req.body;
     const updatedAt = new Date();
@@ -71,8 +69,7 @@ module.exports = function (app: Express) {
       });
     }
   });
-
-  app.post<{}, GetUrlsResponse, GetUrlsRequest>('/urls', async (req, res) => {
+  app.post<{}, GetUrlsResponse, GetUrlsRequest>('/urls',RequireSignIn, async (req, res) => {
     
     const limit = parseInt(req.body.limit || '10');
     const page = parseInt(req.body.page || '1');
@@ -100,7 +97,6 @@ module.exports = function (app: Express) {
       })
     }
   })
-
   app.get('/error/not-found', async (req, res) => {
     res.status(200).json({
       message: 'success',

@@ -24,7 +24,6 @@ const connectOptions = {
   reconnectInterval: 500,
   connectTimeoutMS: 10000,
   useNewUrlParser: true,
-  useUnifiedTopology:true
 };
 //Connect to MongoDB
 mongoose.Promise = global.Promise;
