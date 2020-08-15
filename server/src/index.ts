@@ -1,4 +1,4 @@
-import dotenv from 'dotenv'; 
+import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
@@ -8,16 +8,15 @@ import cors from 'cors';
 const upload = multer();
 
 import './models/UrlShorten';
-import "./models/UserSchema"
+import './models/UserSchema';
 
 dotenv.config();
 
-const DB = process.env.DB;
+// const DB = process.env.DB;
 const DB_HOST = process.env.DB_HOST;
 
 // const dbURI = `mongodb://${DB_HOST}/${DB}`;
-const dbURI= `mongodb://localhost:27017/${DB_HOST}`
-console.log(dbURI);
+const dbURI = `mongodb://localhost:27017/${DB_HOST}`;
 const connectOptions = {
   keepAlive: true,
   reconnectTries: Number.MAX_VALUE,
@@ -36,14 +35,12 @@ const app = express();
 app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(upload.none()); 
+app.use(upload.none());
 app.use(cors());
 app.options('*', cors());
-require("./routes/auth")(app)
+require('./routes/auth')(app);
 require('./routes/urlShorten')(app);
 
-app.listen(process.env.PORT, () => {
-  console.log(`Server started on port`, process.env.PORT);
-})
+app.listen(process.env.PORT);
 
 export default app;

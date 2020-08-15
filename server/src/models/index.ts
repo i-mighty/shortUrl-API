@@ -1,2 +1,2 @@
-import './UrlShorten'
-import "./UserSchema"
+import './UrlShorten';
+import './UserSchema';

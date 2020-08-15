@@ -1,15 +1,14 @@
-import mongoose, {Schema} from 'mongoose';
-import  mongoosePaginate from 'mongoose-paginate';
+import mongoose, { Schema } from 'mongoose';
+import mongoosePaginate from 'mongoose-paginate';
 import { Url } from './types';
 import { shortBaseUrl } from '@src/utils/constants';
-
 
 const urlSchema: Schema = new Schema({
   originalUrl: String,
   urlCode: { type: String, unique: true },
-  user:{
-    ref:"User",
-    type:mongoose.Types.ObjectId
+  user: {
+    ref: 'User',
+    type: mongoose.Types.ObjectId,
   },
   shortUrl: { type: String, unique: true },
   createdAt: { type: Date, default: Date.now() },

@@ -1,9 +1,4 @@
-import {
-  database,
-  config,
-  up,
-  down,
-} from 'migrate-mongo';
+import { database, config, up, down } from 'migrate-mongo';
 
 const dbHost = process.env.DB_HOST || '127.0.0.1';
 const dbName = 'test-db';
@@ -30,7 +25,7 @@ export const initDB = async () => {
 
   migrated.forEach((fileName: string) => console.log('Migrated:', fileName));
   client.close();
-}
+};
 
 export const destroyDB = async () => {
   // config.shouldExist = () => true;
@@ -54,4 +49,4 @@ export const destroyDB = async () => {
 
   migrated.forEach((fileName: string) => console.log('Migrated:', fileName));
   client.close();
-}
+};
