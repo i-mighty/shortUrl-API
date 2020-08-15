@@ -16,7 +16,9 @@ dotenv.config();
 const User = mongoose.model<User>('User');
 const jwtSecret: Secret = config.jwtSecret;
 
-module.exports = function(app: Express) {
+// module.exports = function
+
+export default (app: Express) => {
   app.post<{}, GetUserCreateResponse, GetUserCreateRequest>(
     '/register',
     async (req, res) => {
@@ -33,7 +35,11 @@ module.exports = function(app: Express) {
             .json({ message: 'Please fill in the required fields' });
         }
       } catch (err) {
-        console.log("There's been an err", err);
+        if (err.code == 11000) {
+          return res.status(401).json({
+            message: 'Error This username is already taken',
+          });
+        }
         res.status(401).json({
           message: 'Something Went Wrong :(',
         });
@@ -48,6 +54,8 @@ module.exports = function(app: Express) {
           return res.status(401).json({ error: 'User not Found !!!' });
         }
         if (!user.authenticate(req.body.password)) {
+          console.log('This is the req.body', req.body.password);
+          console.log(user.authenticate(req.body.password));
           return res.status(401).json({
             error: "Password don't match",
           });
@@ -60,11 +68,10 @@ module.exports = function(app: Express) {
           },
         });
       } else {
-        return res
-          .status(401)
-          .json({
-            error: 'Please submit the required fields username and password',
-          });
+        console.log('Lack of credential');
+        return res.status(401).json({
+          error: 'Please submit the required fields username and password',
+        });
       }
     } catch (err) {
       return res.status(401).json({ error: 'Could not sign in' });

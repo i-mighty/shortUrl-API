@@ -10,7 +10,7 @@ const UserSchema: Schema = new Schema(
       trim: true,
       required: 'A username is required',
     },
-    hashed_password: {
+    hashedPassword: {
       type: String,
       trim: true,
       required: 'Password is required',
@@ -25,15 +25,17 @@ const UserSchema: Schema = new Schema(
 
 UserSchema.virtual('password')
   .set(function(this: User, password: string) {
+    console.log('this is the password virtual', password);
     this._password = password;
     this.salt = this.makeSalt();
-    this.hashed_password = this.encryptPassword(password);
+    this.hashedPassword = this.encryptPassword(password);
   })
   .get(function(this: User) {
     return this._password;
   });
 
-UserSchema.path('hashed_password').validate(function(this: User) {
+UserSchema.path('hashedPassword').validate(function(this: User) {
+  console.log('we are validating the request', this._password);
   if (this._password && this._password.length < 6) {
     this.invalidate('password', 'Password must be at least 6 character');
     if (this.isNew && !this._password) {
@@ -44,7 +46,8 @@ UserSchema.path('hashed_password').validate(function(this: User) {
 
 UserSchema.methods = {
   authenticate: function(plainText: string) {
-    return this.encryptPassword(plainText) === this.hashed_password;
+    const isTrue = this.encryptPassword(plainText) === this.hashedPassword;
+    return isTrue;
   },
   encryptPassword: function(password: string) {
     if (!password) return '';

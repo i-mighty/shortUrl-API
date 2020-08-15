@@ -12,6 +12,10 @@ import './models/UserSchema';
 
 dotenv.config();
 
+// const authRoutes = require('');
+import authRoutes from "./routes/auth"
+import urlRoutes from "./routes/urlShorten"
+// const urlRoutes = require('./routes/urlShorten');
 // const DB = process.env.DB;
 const DB_HOST = process.env.DB_HOST;
 
@@ -38,8 +42,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(upload.none());
 app.use(cors());
 app.options('*', cors());
-require('./routes/auth')(app);
-require('./routes/urlShorten')(app);
+authRoutes(app);
+urlRoutes(app);
 
 app.listen(process.env.PORT);
 

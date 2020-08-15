@@ -32,9 +32,10 @@ describe('Auth Test', () => {
     done();
   });
   it('Should login successfully', async done => {
-    const username = 'user1',
-      password = 'drowssap001';
+    const username = 'user1';
+    const password = 'drowssap001';
     const res = await request.post('/login').send({ username, password });
+    console.log('This is teh req.body', res.body, res.status);
     expect(res.status).toBe(200);
     expect(res.body.user.username).toBe(username);
     done();

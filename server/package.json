@@ -8,13 +8,18 @@
     "dev": "nodemon",
     "start": "yarn run build && node build/src/index.js",
     "lint": "eslint . --ext .ts",
-    "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write",
+    "prettier-format": "prettier --config .prettierrc src/**/*.ts --write",
     "prettier-watch": "onchange 'src/**/*.ts' -- prettier --write {{changed}}",
     "test": "cross-env NODE_ENV=test jest  --forceExit --maxWorkers=1",
     "migrate-up": "migrate-mongo up",
     "migrate-create": "migrate-mongo create",
     "migrate-down": "migrate-mongo down",
     "migrate-status": "migrate-mongo status"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run prettier-format && npm run lint"
+    }
   },
   "keywords": [],
   "author": "",

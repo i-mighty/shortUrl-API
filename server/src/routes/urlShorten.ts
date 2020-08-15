@@ -16,8 +16,8 @@ import middleware from '../utils/middleware';
 const Url = mongoose.model<Url>('Url');
 
 const nanoid = customAlphabet(shortUrlAlphabet, 8);
-
-module.exports = function(app: Express) {
+// module.exports = 
+export default (app: Express) => {
   app.get('/', async (req, res) => {
     res.send('welcome to url shortener');
   });
@@ -56,7 +56,7 @@ module.exports = function(app: Express) {
           } else {
             const urlCode = nanoid();
             shortUrl = `${shortBaseUrl}/${urlCode}`;
-            let itemToBeSaved: ItoBeSaved = {
+            const itemToBeSaved: ItoBeSaved = {
               originalUrl,
               shortUrl,
               urlCode,
