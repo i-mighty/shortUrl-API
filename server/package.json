@@ -16,6 +16,11 @@
     "migrate-down": "migrate-mongo down",
     "migrate-status": "migrate-mongo status"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run prettier-format && npm run lint"
+    }
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
