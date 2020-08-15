@@ -7,9 +7,15 @@ import { shortBaseUrl } from '../utils/constants';
 
 const request = supertest(app);
 
-const dbHost = process.env.DB_HOST || '127.0.0.1';
-const dbName = 'test-db';
-const url = `mongodb://${dbHost}/${dbName}`;
+// const dbHost = process.env.DB_HOST || '127.0.0.1';
+// const dbName = 'test-db';
+// // const url = `mongodb://${dbHost}/${dbName}`;
+// const url = `mongodb://localhost:27017/${dbName}`
+
+const dbHost = process.env.DB_HOST || '127.0.0.1'
+const dbName = 'test-db'
+// const url = `mongodb://${dbHost}/${dbName}`;
+const url= `mongodb://localhost:27017/${dbName}`
 
 beforeAll(async () => {
   await initDB();

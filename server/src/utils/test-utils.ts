@@ -13,7 +13,8 @@ export const initDB = async () => {
   config.read = async function() {
     return {
       mongodb: {
-        url: `mongodb://${dbHost}:27017`,
+        // url: `mongodb://${dbHost}:27017`,
+        url: `mongodb://localhost:27017`,
         databaseName: dbName,
         options: {
           useNewUrlParser: true,
@@ -36,7 +37,8 @@ export const destroyDB = async () => {
   config.read = async function() {
     return {
       mongodb: {
-        url: `mongodb://${dbHost}:27017`,
+        // url: `mongodb://${dbHost}:27017`,
+        url: `mongodb://localhost:27017`,
         databaseName: dbName,
         options: {
           useNewUrlParser: true,

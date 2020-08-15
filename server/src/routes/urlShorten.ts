@@ -58,7 +58,6 @@ module.exports = function (app: Express) {
           if(req.body.auth){
             itemToBeSaved.user = req.body.auth._id
           }          
-          console.log("item to be saved",itemToBeSaved)
           const item = new Url(itemToBeSaved);
           await item.save();
           res.status(200).json({
@@ -100,7 +99,6 @@ module.exports = function (app: Express) {
         })
       }
     } catch (error) {
-      console.log(error)
       return res.status(401).json({
         message: `Couldn't fetch the shortened urls.`
       })
