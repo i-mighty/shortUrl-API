@@ -9,14 +9,13 @@ import {
   GetUrlsResponse,
   GetUrlResponse,
   GetUrlRequest,
-  ItoBeSaved,
+  UrlDataResponse,
 } from './types';
 import middleware from '../utils/middleware';
 
 const Url = mongoose.model<Url>('Url');
 
 const nanoid = customAlphabet(shortUrlAlphabet, 8);
-// module.exports =
 export default (app: Express) => {
   app.get('/', async (req, res) => {
     res.send('welcome to url shortener');
@@ -56,7 +55,7 @@ export default (app: Express) => {
           } else {
             const urlCode = nanoid();
             shortUrl = `${shortBaseUrl}/${urlCode}`;
-            const itemToBeSaved: ItoBeSaved = {
+            const itemToBeSaved: UrlDataResponse = {
               originalUrl,
               shortUrl,
               urlCode,
@@ -73,7 +72,6 @@ export default (app: Express) => {
             });
           }
         } catch (err) {
-          console.log("there's an err", err);
           res.status(401).json({
             message: 'Some error occurred.',
           });

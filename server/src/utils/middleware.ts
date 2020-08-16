@@ -2,13 +2,6 @@ import { Request, Response, NextFunction } from 'express';
 import config from './config';
 import jwt from 'jsonwebtoken';
 
-// import dotenv from "dotenv"
-
-// const requireSignIn = expressJwt({
-//     secret:process.env.jwtSecret!,
-//     userProperty:'body.auth',
-//     algorithms:['HS256']
-// })
 const addAuth = async function(
   req: Request,
   res: Response,

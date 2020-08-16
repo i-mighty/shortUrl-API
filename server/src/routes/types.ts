@@ -49,7 +49,7 @@ export interface LoginResponse {
   user?: UserResponse;
   error?: string;
 }
-export interface ItoBeSaved {
+export interface UrlDataResponse {
   originalUrl: string;
   shortUrl: string;
   updatedAt: Date;

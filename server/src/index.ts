@@ -12,10 +12,8 @@ import './models/UserSchema';
 
 dotenv.config();
 
-// const authRoutes = require('');
 import authRoutes from './routes/auth';
 import urlRoutes from './routes/urlShorten';
-// const urlRoutes = require('./routes/urlShorten');
 // const DB = process.env.DB;
 const DB_HOST = process.env.DB_HOST;
 

@@ -16,8 +16,6 @@ dotenv.config();
 const User = mongoose.model<User>('User');
 const jwtSecret: Secret = config.jwtSecret;
 
-// module.exports = function
-
 export default (app: Express) => {
   app.post<{}, GetUserCreateResponse, GetUserCreateRequest>(
     '/register',
